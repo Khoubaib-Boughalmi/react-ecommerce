@@ -40,26 +40,29 @@ const Select = styled.select`
 const Option = styled.option`
   ${Mobile({ padding: "10px 20px", margin: "5px" })}
 `;
-const FilterContainer = () => {
+const FilterContainer = ({ filter, setFilter, sort, setSort }) => {
+  const handleFilter = (e) => {
+    const value = e.target.value;
+    setFilter({
+      ...filter,
+      [e.target.name]: value,
+    });
+  };
   return (
     <Container>
       <Title>Dresses</Title>
       <FilterWrap>
         <Filter>
           <FilterText>Filter Products :</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Green</Option>
-            <Option>Blue</Option>
+          <Select onChange={(e) => handleFilter(e)} name="color">
+            <Option disabled>Color</Option>
+            <Option name="White">White</Option>
+            <Option name="Black">Black</Option>
+            <Option name="Green">Green</Option>
+            <Option name="Blue">Blue</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
+          <Select onChange={(e) => handleFilter(e)} name="size">
+            <Option disabled defaultValue={true}></Option>
             <Option>XXL</Option>
             <Option>XL</Option>
             <Option>XS</Option>
@@ -68,10 +71,16 @@ const FilterContainer = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products :</FilterText>
-          <Select>
-            <Option selected>newest</Option>
-            <Option>price (asc)</Option>
-            <Option>price (desc)</Option>
+          <Select
+            onChange={(e) => {
+              setSort(e.target.value);
+            }}
+          >
+            <Option value="newest" defaultValue={true}>
+              newest
+            </Option>
+            <Option value="asc">price (asc)</Option>
+            <Option value="desc">price (desc)</Option>
           </Select>
         </Filter>
       </FilterWrap>

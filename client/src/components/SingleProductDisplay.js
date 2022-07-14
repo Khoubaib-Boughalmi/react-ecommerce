@@ -86,44 +86,66 @@ const Button = styled.button`
   }
 `;
 
-const SingleProductDisplay = () => {
+const SingleProductDisplay = ({ product }) => {
+  const [count, setCount] = useState(1);
+
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const handleClick = () => {
+    //update cart
+  };
   return (
     <Container>
       <ImageContainer>
-        <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
+        <Image src={product.img} />
       </ImageContainer>
       <InfoContainer>
-        <Title>PRADA Brand new design</Title>
+        <Title>{product.title}</Title>
         <Desc>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-          alias officiis architecto saepe maiores odit sit quaerat ratione quos
-          aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Pariatur error quidem explicabo eligendi in itaque eum voluptate
-          mollitia soluta odio?
+          {product.desc} Lorem ipsum dolor sit, amet consectetur adipisicing
+          elit. Quaerat odio voluptas incidunt saepe. Reprehenderit quaerat
+          quasi doloremque dicta labore aspernatur recusandae debitis quis
+          blanditiis, voluptatem saepe, aut amet ea consequatur asperiores
+          tenetur non, atque reiciendis accusamus modi. Fugit voluptatum ea
+          praesentium assumenda asperiores minus doloribus. Voluptate minima
+          odio veritatis voluptatem.
         </Desc>
-        <Price>$ 20</Price>
+        <Price>${product.price}</Price>
 
         <FilterContainer>
           <Filter>
             <FilterTitle>Color : </FilterTitle>
-            <FilterColor color="black" />
+
+            {product.color?.map((color) => {
+              return (
+                <FilterColor
+                  color={color}
+                  key={color}
+                  onClick={(e) => {
+                    setColor(e.target.value);
+                  }}
+                />
+              );
+            })}
             <FilterColor color="darkblue" />
             <FilterColor color="gray" />
           </Filter>
           <Filter>
             <FilterTitle>Size : </FilterTitle>
-            <FilterSize>
-              <FilterSizeOption>XS</FilterSizeOption>
-              <FilterSizeOption>S</FilterSizeOption>
-              <FilterSizeOption>M</FilterSizeOption>
-              <FilterSizeOption>L</FilterSizeOption>
-              <FilterSizeOption>XL</FilterSizeOption>
+            <FilterSize
+              onChange={(e) => {
+                setSize(e.target.value);
+              }}
+            >
+              {product.size?.map((size) => {
+                return <FilterSizeOption key={size}>{size}</FilterSizeOption>;
+              })}
             </FilterSize>
           </Filter>
         </FilterContainer>
         <AmountContainer>
-          <AmountCounter />
-          <Button>Purchase now</Button>
+          <AmountCounter count={count} setCount={setCount} />
+          <Button onClick={handleClick}>Purchase now</Button>
         </AmountContainer>
       </InfoContainer>
     </Container>

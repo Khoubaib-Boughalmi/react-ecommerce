@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 const AmountAction = styled.div`
@@ -16,8 +17,7 @@ const AmountCount = styled.div`
   font-weight: bold;
 `;
 
-const AmountCounter = () => {
-  const [count, setCount] = useState(1);
+const AmountCounter = ({ count, setCount }) => {
   const manageCount = (action) => {
     if (action === "+") {
       setCount(count + 1);

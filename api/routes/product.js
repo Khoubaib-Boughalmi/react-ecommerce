@@ -1,10 +1,6 @@
 const Product = require("../models/Product");
 const router = require("express").Router();
 const { verifyIsAdmin } = require("../middlewares/verifyToken");
-// get status
-router.get("/status", async (req, res) => {
-  res.send("hello");
-});
 
 // Create products
 router.post("/", verifyIsAdmin, async (req, res) => {
@@ -54,8 +50,10 @@ router.get("/find/:id", async (req, res) => {
 // //get all product
 router.get("/", async (req, res) => {
   const newQuery = req.query.new;
-  const categoryQuery = req.query.category;
-
+  let categoryQuery;
+  if (req.query.category) {
+    categoryQuery = req.query.category;
+  }
   try {
     let products;
     if (newQuery) {

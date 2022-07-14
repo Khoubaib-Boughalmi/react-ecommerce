@@ -1,3 +1,4 @@
+import React from "react";
 import { Send } from "@mui/icons-material";
 import styled from "styled-components";
 import { Mobile } from "../responsive";

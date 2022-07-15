@@ -1,4 +1,4 @@
-import React from 'react' 
+import React from "react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styled from "styled-components";

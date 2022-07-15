@@ -1,4 +1,4 @@
-import React from 'react' 
+import React from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
@@ -16,6 +16,9 @@ const Product = () => {
   const fullPathName = useLocation();
   const productId = fullPathName.pathname.split("/")[2];
   const [product, setProduct] = useState([]);
+  useEffect(() => {
+    window.scrollTo(0, 100);
+  }, []);
   useEffect(() => {
     const getProduct = async () => {
       const res = await publicRequest.get(`/products/find/${productId}`);

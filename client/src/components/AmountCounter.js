@@ -1,6 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
+
 const AmountAction = styled.div`
   font-size: 30px;
   margin: 0px 10px;

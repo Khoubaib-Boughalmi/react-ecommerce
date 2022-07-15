@@ -1,7 +1,7 @@
 import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
 
-const cartSlice = createSlice({
+const userSlice = createSlice({
   name: "cart",
   initialState: {
     products: [],

@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import AmountCounter from "./AmountCounter";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Mobile } from "../responsive";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 const Container = styled.div`
   padding: 100px;
   display: flex;
@@ -63,10 +65,16 @@ const FilterColor = styled.div`
 `;
 const FilterSize = styled.select`
   padding: 5px 30px;
-  border: 1px solid #000;
+  border: 2px solid #000;
   outline: none;
+  font-weight: bold;
 `;
-const FilterSizeOption = styled.option``;
+const FilterSizeOption = styled.option`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+`;
 
 const AmountContainer = styled.div`
   display: flex;
@@ -89,11 +97,16 @@ const Button = styled.button`
 
 const SingleProductDisplay = ({ product }) => {
   const [count, setCount] = useState(1);
-
   const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
-  const handleClick = () => {
+  const [size, setSize] = useState();
+  const dispatch = useDispatch();
+  const sizeRef = useRef();
+  const handleClick = (e) => {
     //update cart
+    dispatch(addProduct({ ...product, quantity: count, color, size }));
+    if (!size) {
+      sizeRef.current.style.border = "2px solid red";
+    }
   };
   return (
     <Container>
@@ -122,8 +135,9 @@ const SingleProductDisplay = ({ product }) => {
                 <FilterColor
                   color={color}
                   key={color}
+                  value={color}
                   onClick={(e) => {
-                    setColor(e.target.value);
+                    setColor(color);
                   }}
                 />
               );
@@ -134,10 +148,15 @@ const SingleProductDisplay = ({ product }) => {
           <Filter>
             <FilterTitle>Size : </FilterTitle>
             <FilterSize
+              ref={sizeRef}
               onChange={(e) => {
                 setSize(e.target.value);
+                sizeRef.current.style.border = "2px solid #000";
               }}
             >
+              <FilterSizeOption disabled selected>
+                Select Size
+              </FilterSizeOption>
               {product.size?.map((size) => {
                 return <FilterSizeOption key={size}>{size}</FilterSizeOption>;
               })}
@@ -146,7 +165,7 @@ const SingleProductDisplay = ({ product }) => {
         </FilterContainer>
         <AmountContainer>
           <AmountCounter count={count} setCount={setCount} />
-          <Button onClick={handleClick}>Purchase now</Button>
+          <Button onClick={(e) => handleClick(e)}>Purchase now</Button>
         </AmountContainer>
       </InfoContainer>
     </Container>

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import AmountCounter from "../components/AmountCounter";
 import Footer from "../components/Footer";
 import { Mobile } from "../responsive";
-
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
+const key = process.env.REACT_APP_STRIPE;
 const Container = styled.div`
   max-width: 100vw;
 `;
@@ -31,12 +34,17 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
-  ${Mobile({ padding: "2px 5px" })}
+  ${Mobile({ padding: "2px 5px", fontSize: "12px" })}
   flex: 1;
 `;
 const TopTexts = styled.div`
   flex: 2;
-  ${Mobile({ display: "flex", justifyContent: "center", alignItems: "center" })}
+  text-align: center;
+  ${Mobile({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  })}
 `;
 const TopText = styled.span`
   margin: 0 10px;
@@ -44,7 +52,7 @@ const TopText = styled.span`
   cursor: pointer;
   font-size: large;
   font-weight: 600;
-  ${Mobile({ textAlign: "center", margin: "0px" })}
+  ${Mobile({ textAlign: "center", margin: "0px", fontSize: "12px" })}
 `;
 const Bottom = styled.div`
   display: flex;
@@ -90,7 +98,7 @@ const ProductText = styled.span`
   justify-content: flex-start;
   align-items: center;
   b {
-    margin: 0 20px;
+    margin: 0 5px;
     ${Mobile({ margin: "0 10px" })}
   }
 `;
@@ -145,6 +153,33 @@ const Button = styled.button`
   }
 `;
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const [count, setCount] = useState(1);
+  const [stripeToken, setStripeToken] = useState(null);
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+  console.log({ ...stripeToken });
+  console.log("key=>" + key);
+  useEffect(() => {
+    const makeReq = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/api/checkout/payment",
+          {
+            tokenId: stripeToken.id,
+            amount: cart.total * 100,
+          }
+        );
+        console.log(response.data);
+        alert("success");
+      } catch (error) {
+        alert("error");
+      }
+    };
+    stripeToken && makeReq();
+  }, [stripeToken]);
+
   return (
     <Container>
       <Announcement />
@@ -161,90 +196,45 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://m.media-amazon.com/images/I/71T3Q9xoCDL._AC_UX500_.jpg" />
-                <Details>
-                  <ProductText>
-                    <b>Product : </b>New Balance 2022
-                  </ProductText>
-                  <ProductText>
-                    <b>Color : </b>
-                    <Color color="lightgray" />
-                  </ProductText>
-                  <ProductText>
-                    <b>ID : </b>98634321324
-                  </ProductText>
-                  <ProductText>
-                    <b>Size : </b>41/42
-                  </ProductText>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <AmountContainer>
-                  <AmountCounter />
-                </AmountContainer>
-                <Price>$ 320</Price>
-              </PriceDetail>
-            </Product>
-            <Product>
-              <ProductDetail>
-                <Image src="https://m.media-amazon.com/images/I/713vrE6PS6S._AC_UX500_.jpg" />
-                <Details>
-                  <ProductText>
-                    <b>Product : </b>PUMA 2022
-                  </ProductText>
-                  <ProductText>
-                    <b>Color : </b>
-                    <Color color="pink" />
-                  </ProductText>
-                  <ProductText>
-                    <b>ID : </b>556748321324
-                  </ProductText>
-                  <ProductText>
-                    <b>Size : </b>41/42
-                  </ProductText>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <AmountContainer>
-                  <AmountCounter />
-                </AmountContainer>
-                <Price>$ 690</Price>
-              </PriceDetail>
-            </Product>
-            <Product>
-              <ProductDetail>
-                <Image src="https://m.media-amazon.com/images/I/81hvYacFK2L._AC_UX500_.jpg" />
-                <Details>
-                  <ProductText>
-                    <b>Product : </b>Sonic Modal
-                  </ProductText>
-                  <ProductText>
-                    <b>Color : </b>
-                    <Color color="CornflowerBlue" />
-                  </ProductText>
-                  <ProductText>
-                    <b>ID : </b>487434303447
-                  </ProductText>
-                  <ProductText>
-                    <b>Size : </b>38/39
-                  </ProductText>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <AmountContainer>
-                  <AmountCounter />
-                </AmountContainer>
-                <Price>$ 122</Price>
-              </PriceDetail>
-            </Product>
+            {cart.products?.map((product) => {
+              return (
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.img} />
+                    <Details>
+                      <ProductText>
+                        <b>Product : </b>
+                        {product.title}
+                      </ProductText>
+                      <ProductText>
+                        <b>Color : </b>
+                        <Color color={product.color} />
+                      </ProductText>
+                      <ProductText>
+                        <b>ID : </b>
+                        {product._id}
+                      </ProductText>
+                      <ProductText>
+                        <b>Size : </b>
+                        {product.size}
+                      </ProductText>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <AmountContainer>
+                      <AmountCounter count={count} setCount={setCount} />
+                    </AmountContainer>
+                    <Price>$ {product.price * product.quantity}</Price>
+                  </PriceDetail>
+                </Product>
+              );
+            })}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 565</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipment</SummaryItemText>
@@ -256,9 +246,20 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 544.22</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>Check Out</Button>
+            <StripeCheckout
+              name="TM"
+              image="https://media-exp1.licdn.com/dms/image/C560BAQHCQnfW1Svt6w/company-logo_200_200/0/1579292403857?e=2147483647&v=beta&t=s0-vwqM3hSL9BP76HvlZC5qjYQmYeOZi5FMmo9mcJTY"
+              billingAddress
+              shippingAddress
+              description={`Your Totlal ${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={key}
+            >
+              <Button>Pay Now</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

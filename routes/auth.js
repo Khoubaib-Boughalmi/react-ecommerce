@@ -23,10 +23,9 @@ router.post("/register", async (req, res) => {
 ////////// Login //////////
 router.post("/login", async (req, res) => {
   const username = req.body.username;
-  const email = req.body.email;
   const passedPassword = req.body.password;
   try {
-    const user = await User.findOne({ username, email });
+    const user = await User.findOne({ username });
     if (user && user.password === passedPassword) {
       const { password, ...othres } = user._doc;
       const accessToken = jwt.sign(
@@ -37,7 +36,6 @@ router.post("/login", async (req, res) => {
         process.env.TOKEN_SECRET,
         { expiresIn: "3d" }
       );
-      console.log(process.env.TOKEN_SECRET);
       req.token = accessToken;
       return res.status(200).json({ ...othres, accessToken });
     }

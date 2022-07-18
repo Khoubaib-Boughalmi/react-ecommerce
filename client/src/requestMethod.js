@@ -1,7 +1,7 @@
-import React from 'react' 
+import React from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = "/api/";
 const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmVmMzljY2Y2YzAzYTM5OGNhYmJkOSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NzgxNDcwNywiZXhwIjoxNjU4MDczOTA3fQ.rV1Sl5dLaD_pDW9b6qfrz4ROTk0knzeYFjStpt-XElA";
 

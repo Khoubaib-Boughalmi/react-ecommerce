@@ -1,4 +1,4 @@
-import React from 'react' 
+import React from "react";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Product from "./Product";
@@ -14,14 +14,13 @@ const Products = ({ filter, category, sort, pageWidth, pageMargin }) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  console.log(filter, category, sort);
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
           category == "all" || !category
-            ? `http://localhost:8000/api/products`
-            : `http://localhost:8000/api/products?category=${category}`
+            ? `/api/products`
+            : `/api/products?category=${category}`
         );
         setProducts(res.data);
         setLoading(false);

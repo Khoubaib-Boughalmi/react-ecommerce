@@ -159,19 +159,13 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
-  console.log({ ...stripeToken });
-  console.log("key=>" + key);
   useEffect(() => {
     const makeReq = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/checkout/payment",
-          {
-            tokenId: stripeToken.id,
-            amount: cart.total * 100,
-          }
-        );
-        console.log(response.data);
+        const response = await axios.post("/api/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total * 100,
+        });
         alert("success");
       } catch (error) {
         alert("error");

@@ -38,8 +38,8 @@ Welcome to the React eCommerce App, a robust and feature-rich platform that show
 
 - **Real-time Updates**: Redux facilitates real-time updates of cart contents, product availability, and user interactions, enhancing the overall user experience.
 
-![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img3.png)
 ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img1.png)
+![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img3.png)
 ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img2.png)
 
 Start exploring the intricacies of our React eCommerce App and embark on a journey through the world of secure authentication, dynamic product management, and seamless payment processing. Experience the power of React, Redux, Express, JWT, and Stripe in action.

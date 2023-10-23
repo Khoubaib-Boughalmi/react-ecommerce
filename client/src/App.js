@@ -7,7 +7,7 @@ import Cart from "./pages/Cart";
 import PageNotFound from "./pages/pageNotFound";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/register";
+import Register from "./pages/Register";
 import { useSelector } from "react-redux";
 function App() {
   const user = useSelector((state) => state.user.user);

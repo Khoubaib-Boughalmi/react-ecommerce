@@ -1,7 +1,7 @@
 # React eCommerce App
 
 Welcome to the React eCommerce App, a robust and feature-rich platform that showcases the seamless integration of cutting-edge technologies to deliver a smooth, secure, and engaging online shopping experience. Dive into the technical details and architectural intricacies of this powerful eCommerce application.
-
+![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img0.png)
 ## Technical Stack
 
 - **Frontend: React and Redux**
@@ -38,7 +38,6 @@ Welcome to the React eCommerce App, a robust and feature-rich platform that show
 
 - **Real-time Updates**: Redux facilitates real-time updates of cart contents, product availability, and user interactions, enhancing the overall user experience.
 
-- ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img0.png)
 - ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img1.png)
 - ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img2.png)
 - ![Description 1](https://github.com/Khoubaib-Boughalmi/e-shopProd/blob/main/asset/img3.png)
